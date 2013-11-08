@@ -9,7 +9,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>example-application</artifactId>
+    <artifactId>example-webapp</artifactId>
     <packaging>war</packaging>
     <description>
         Example webapp that uses the javascript example library
