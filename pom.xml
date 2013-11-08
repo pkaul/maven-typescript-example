@@ -11,6 +11,14 @@
         An example for bringing up a Java based webapp project with TypeScript
     </description>
 
+    <scm>
+        <url>https://github.com/pkaul/maven-typescript-example</url>
+        <connection>scm:git:git@github.com:pkaul/maven-typescript-example.git</connection>
+        <developerConnection>scm:git:git@github.com:pkaul/maven-typescript-example.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+
     <modules>
         <module>example-library-js</module>
         <module>example-webapp</module>
