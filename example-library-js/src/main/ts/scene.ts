@@ -1,78 +1,74 @@
+
+
+
 /**
- * A scene "framework"
+ * A scene
  */
-module examplelib.scene {
+export interface Scene {
+
+    /**
+     * Executes the scene's logic
+     */
+    run():void;
 
 
     /**
-     * A scene
+     * Draws the scene
      */
-    export interface Scene {
-
-        /**
-         * Executes the scene's logic
-         */
-        run():void;
+    draw():void;
+}
 
 
-        /**
-         * Draws the scene
-         */
-        draw():void;
+/**
+ * A scene base implementation that contains execution logic
+ */
+export class SceneRunner implements Scene {
+
+    private _running:boolean = false;
+
+
+    public start():void {
+        this._running = true;
+        this.frame();
     }
 
-
+    public stop():void {
+        this._running = false;
+        this.triggerNextFrame();
+    }
 
     /**
-     * A scene base implementation that contains execution logic
+     * Needs to be overridden by concrete implementation
      */
-    export class SceneRunner implements Scene {
+    public run():void {}
 
-        private _running:boolean = false;
+    /**
+     * Needs to be overridden by concrete implementation
+     */
+    public draw():void {}
 
 
-        public start():void {
-            this._running = true;
-            this.frame();
+    // =======
+
+    /**
+     * Runs a scene's frame
+     */
+    private frame():void {
+
+        if( !this._running ) {
+            return;
         }
 
-        public stop():void {
-            this._running = false;
-            this.triggerNextFrame();
-        }
+        // run the scene
+        this.run();
+        // draw the scene
+        this.draw();
+        this.triggerNextFrame();
 
-        /**
-         * Needs to be overridden by concrete implementation
-         */
-        public run():void {}
+    }
 
-        /**
-         * Needs to be overridden by concrete implementation
-         */
-        public draw():void {}
-
-
-        // =======
-
-        /**
-         * Runs a scene's frame
-         */
-        private frame():void {
-
-            if( !this._running ) {
-                return;
-            }
-
-            // run the scene
-            this.run();
-            // draw the scene
-            this.draw();
-            this.triggerNextFrame();
-
-        }
-
-        private triggerNextFrame():void {
-            window.requestAnimationFrame(() => this.frame());
-        }
+    private triggerNextFrame():void {
+        window.requestAnimationFrame(() => this.frame());
     }
 }
+
