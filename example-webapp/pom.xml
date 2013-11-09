@@ -21,25 +21,59 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>example-library-js</artifactId>
+            <type>jszip</type>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>requirejs</artifactId>
-            <version>2.1.8</version>
-            <scope>runtime</scope>
+            <groupId>org.jszip.redist</groupId>
+            <artifactId>require</artifactId>
+            <version>2.1.6</version>
+            <type>jszip</type>
         </dependency>
-
 
     </dependencies>
 
     <build>
         <plugins>
+
+            <!--
+               Make all web resources (packaged as a JSZIP archive) available to the webapp
+            -->
+            <plugin>
+                <groupId>org.jszip.maven</groupId>
+                <artifactId>jszip-maven-plugin</artifactId>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <mappings>
+                                <!-- copy all JSZIP dependencies to directory "modules" -->
+                                <mapping>
+                                    <select>*:*</select>
+                                    <path>modules</path>
+                                </mapping>
+                            </mappings>
+                            <unpackExcludes>
+                                <unpackExclude>META-INF/**</unpackExclude>
+                                <unpackExclude>package.json</unpackExclude>
+                            </unpackExcludes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- run the module in Jetty servlet container -->
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>8.1.12.v20130726</version>
+                <configuration>
+                    <webAppSourceDirectory>${project.build.directory}/${project.build.finalName}</webAppSourceDirectory>
+                </configuration>
             </plugin>
         </plugins>
     </build>

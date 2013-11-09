@@ -24,4 +24,16 @@
         <module>example-webapp</module>
     </modules>
 
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.jszip.maven</groupId>
+                    <artifactId>jszip-maven-plugin</artifactId>
+                    <version>0.1-alpha-9</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
 </project>

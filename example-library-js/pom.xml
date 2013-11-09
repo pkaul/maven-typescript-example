@@ -10,34 +10,14 @@
     </parent>
 
     <artifactId>example-library-js</artifactId>
-    <packaging>jar</packaging>
+    <packaging>jszip</packaging>
     <description>
-        A TypeScript based javascript library. Packaged as a WebJAR artifact.
+        Example javascript library that is generated from TypeScript. Packaged as a JSZIP (http://jszip.org) artifact.
     </description>
 
 
     <build>
         <plugins>
-
-            <!--
-               Skip compilation and testing of (non-existing) java files. Not really necessary but it prevents some output and speeds up the build a little bit.
-            -->
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <skip>true</skip>
-                    <skipMain>true</skipMain>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.15</version>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-
 
             <plugin>
                 <groupId>com.google.code.maven-replacer-plugin</groupId>
@@ -164,8 +144,8 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <!-- Put all generated javascript files into a WebJAR compliant directory layout -->
-                            <outputDirectory>${project.build.outputDirectory}/META-INF/resources/webjars/${project.artifactId}/${project.version}</outputDirectory>
+                            <!-- Copy all generated javascript files into the final directory structure -->
+                            <outputDirectory>${project.build.outputDirectory}/${project.artifactId}</outputDirectory>
                             <resources>
                                 <resource>
                                     <!-- the directory that is populated by Grunt -->
@@ -186,8 +166,8 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <!-- Put all generated typescript definition files (*.d.ts) to the JAR as well -->
-                            <outputDirectory>${project.build.outputDirectory}/META-INF/typescript/${project.artifactId}/${project.version}</outputDirectory>
+                            <!-- Optional: Put all generated typescript definition files (*.d.ts) into the JAR as well -->
+                            <outputDirectory>${project.build.outputDirectory}/META-INF/typescript/${project.artifactId}</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>${project.build.directory}/js</directory>
@@ -200,6 +180,15 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+
+            <!--
+               Package files in a JSZIP archive
+            -->
+            <plugin>
+                <groupId>org.jszip.maven</groupId>
+                <artifactId>jszip-maven-plugin</artifactId>
+                <extensions>true</extensions>
             </plugin>
 
         </plugins>
