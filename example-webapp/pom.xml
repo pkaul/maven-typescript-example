@@ -37,32 +37,43 @@
     <build>
         <plugins>
 
-            <!--
-               Make all web resources (packaged as a JSZIP archive) available to the webapp
-            -->
             <plugin>
                 <groupId>org.jszip.maven</groupId>
                 <artifactId>jszip-maven-plugin</artifactId>
                 <extensions>true</extensions>
+                <configuration>
+                    <mappings>
+                        <!-- copy all JSZIP dependencies to directory "modules" -->
+                        <mapping>
+                            <select>*:*</select>
+                            <path>modules</path>
+                        </mapping>
+                    </mappings>
+                </configuration>
                 <executions>
+                    <!--
+                       Make all web resources (packaged as a JSZIP archive) available to the webapp
+                    -->
                     <execution>
+                        <id>resolve-dependencies</id>
                         <goals>
                             <goal>unpack</goal>
                         </goals>
                         <configuration>
-                            <mappings>
-                                <!-- copy all JSZIP dependencies to directory "modules" -->
-                                <mapping>
-                                    <select>*:*</select>
-                                    <path>modules</path>
-                                </mapping>
-                            </mappings>
                             <unpackExcludes>
                                 <unpackExclude>META-INF/**</unpackExclude>
                                 <unpackExclude>package.json</unpackExclude>
                             </unpackExcludes>
                         </configuration>
                     </execution>
+
+                    <!-- ALTERNATIVE: resolve web resources and optimize (using r.js). See build/js/optimize.js config -->
+                    <!--<execution>-->
+                        <!--<id>resolve-dependencies-and-optimize</id>-->
+                        <!--<goals>-->
+                            <!--<goal>optimize</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
                 </executions>
             </plugin>
 

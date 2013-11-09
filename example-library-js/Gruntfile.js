@@ -130,6 +130,7 @@ module.exports = function(grunt) {
 
         // ------ Optional: make javascript small (and unreadable)
         //  See https://github.com/gruntjs/grunt-contrib-uglify
+        //  Note: Consider doing the uglification in the _final_ webapp
         uglify: {
             options: {
                 // add a small descriptive banner
@@ -184,6 +185,6 @@ module.exports = function(grunt) {
     // Task for running testing stuff (corresponds to Maven's "test" lifecycle phase)
     grunt.registerTask('test', ['typescript:compile_test', 'jasmine']);
     // Task for running testing stuff (corresponds to Maven's "prepare-package" lifecycle phase)
-    grunt.registerTask('package', ['uglify']);
+    grunt.registerTask('package', [/*'uglify'*/]);
 
 };
