@@ -66,19 +66,33 @@
                             </unpackExcludes>
                         </configuration>
                     </execution>
+                </executions>
+            </plugin>
 
-                    <!--
-                        ALTERNATIVE: resolve web resources and optimize (using r.js).
-                        See build/js/optimize.js config and http://jszip.org/jszip-maven-plugin/optimize-mojo.html
-                    -->
+            <!--
+               Optional: Running optimizer and compressing all *.js into a single one (starting with root "application.js").
+               Note#1: jszip:optimize (http://jszip.org/jszip-maven-plugin/optimize-mojo.html) doesn't work here because
+                it doesn't support compressing into a single file
+            -->
+            <!--<plugin>-->
+                <!--<groupId>com.github.mcheely</groupId>-->
+                <!--<artifactId>requirejs-maven-plugin</artifactId>-->
+                <!--<version>1.0.4</version>-->
+                <!--<executions>-->
                     <!--<execution>-->
-                        <!--<id>resolve-dependencies-and-optimize</id>-->
+                        <!--<phase>prepare-package</phase>-->
                         <!--<goals>-->
                             <!--<goal>optimize</goal>-->
                         <!--</goals>-->
                     <!--</execution>-->
-                </executions>
-            </plugin>
+                <!--</executions>-->
+                <!--<configuration>-->
+                    <!--<skip>true</skip>&lt;!&ndash; NOT ENABLED AS A DEFAULT &ndash;&gt;-->
+                    <!--<configFile>${basedir}/src/build/js/optimize.js</configFile>-->
+                    <!--<filterConfig>true</filterConfig>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
+
 
             <!-- run the module in Jetty servlet container -->
             <plugin>
