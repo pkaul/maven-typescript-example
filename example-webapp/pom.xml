@@ -74,24 +74,24 @@
                Note#1: jszip:optimize (http://jszip.org/jszip-maven-plugin/optimize-mojo.html) doesn't work here because
                 it doesn't support compressing into a single file
             -->
-            <!--<plugin>-->
-                <!--<groupId>com.github.mcheely</groupId>-->
-                <!--<artifactId>requirejs-maven-plugin</artifactId>-->
-                <!--<version>1.0.4</version>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<phase>prepare-package</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>optimize</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-                <!--<configuration>-->
-                    <!--<skip>true</skip>&lt;!&ndash; NOT ENABLED AS A DEFAULT &ndash;&gt;-->
-                    <!--<configFile>${basedir}/src/build/js/optimize.js</configFile>-->
-                    <!--<filterConfig>true</filterConfig>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
+            <plugin>
+                <groupId>com.github.mcheely</groupId>
+                <artifactId>requirejs-maven-plugin</artifactId>
+                <version>1.0.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>optimize</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <skip>true</skip><!-- NOT ENABLED AS A DEFAULT -->
+                    <configFile>${basedir}/src/build/js/optimize.js</configFile>
+                    <filterConfig>true</filterConfig>
+                </configuration>
+            </plugin>
 
 
             <!-- run the module in Jetty servlet container -->
