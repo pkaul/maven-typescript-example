@@ -1,6 +1,7 @@
 /// <reference path="./lib/jasmine.d.ts"/>
 
-import demo = require("../../main/ts/demo");
+import Triangle = require("../../main/ts/demo/Triangle");
+import TrianglesScene = require("../../main/ts/demo/TrianglesScene");
 
 /**
  * Tests {@link TrianglesScene}
@@ -12,7 +13,7 @@ describe("TrianglesScene", function():void {
      */
     it("createTriangle", function():void {
 
-        var triangle:demo.Triangle = demo.TrianglesScene.createTriangle(0);
+        var triangle:Triangle = TrianglesScene.createTriangle(0);
         expect(triangle.v1.x).toBe(0);
         expect(triangle.v1.y).toBe(0);
         expect(triangle.v2.x).toBe(50);

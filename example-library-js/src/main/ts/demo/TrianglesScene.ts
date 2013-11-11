@@ -1,10 +1,11 @@
-import scene = require("./scene");
-
+import SceneRunner = require("../scene/SceneRunner");
+import Triangle = require("./Triangle");
+import Vector = require("./Vector");
 
 /**
  *  Scene that draws triangles on a canvas
  */
-export class TrianglesScene extends scene.SceneRunner {
+class TrianglesScene extends SceneRunner {
 
     private _canvas:HTMLCanvasElement;
 
@@ -80,60 +81,4 @@ export class TrianglesScene extends scene.SceneRunner {
     }
 }
 
-
-// ====================
-
-
-export class Vector {
-
-    private _x:number;
-    private _y:number;
-
-    constructor(x:number,y:number) {
-        this._x = x;
-        this._y = y;
-    }
-
-    public get x() {
-        return this._x;
-    }
-
-    public get y() {
-        return this._y;
-    }
-
-    public static rotate(v:Vector, center:Vector, angle:number):Vector {
-
-        var dx:number = v.x - center.x;
-        var dy:number = v.y - center.y;
-        return new Vector(
-            (dx * Math.cos(angle) - dy * Math.sin(angle)) + center.x,
-            (dx * Math.sin(angle) + dy * Math.cos(angle)) + center.y);
-
-    }
-}
-
-export class Triangle {
-
-    private _v1:Vector;
-    private _v2:Vector;
-    private _v3:Vector;
-
-    constructor(v1:Vector, v2:Vector, v3:Vector) {
-        this._v1 = v1;
-        this._v2 = v2;
-        this._v3 = v3;
-    }
-
-    public get v1() {
-        return this._v1;
-    }
-
-    public get v2() {
-        return this._v2;
-    }
-
-    public get v3() {
-        return this._v3;
-    }
-}
+export = TrianglesScene;
