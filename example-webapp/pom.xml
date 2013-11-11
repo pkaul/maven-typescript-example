@@ -67,7 +67,10 @@
                         </configuration>
                     </execution>
 
-                    <!-- ALTERNATIVE: resolve web resources and optimize (using r.js). See build/js/optimize.js config -->
+                    <!--
+                        ALTERNATIVE: resolve web resources and optimize (using r.js).
+                        See build/js/optimize.js config and http://jszip.org/jszip-maven-plugin/optimize-mojo.html
+                    -->
                     <!--<execution>-->
                         <!--<id>resolve-dependencies-and-optimize</id>-->
                         <!--<goals>-->
