@@ -175,13 +175,12 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-yuidoc');
-    grunt.loadNpmTasks('grunt-wrap');
 
     // Default task(s).
     grunt.registerTask('default', ['clean','typescript:compile','typescript:compile_test','jasmine','uglify']);
 
     // Task for running compilation/assembling stuff (corresponds to Maven's "compile" or "resources" lifecycle phase)
-    grunt.registerTask('compile', ['typescript:compile','uglify']);
+    grunt.registerTask('compile', ['typescript:compile']);
     // Task for running testing stuff (corresponds to Maven's "test" lifecycle phase)
     grunt.registerTask('test', ['typescript:compile_test', 'jasmine']);
     // Task for running testing stuff (corresponds to Maven's "prepare-package" lifecycle phase)
