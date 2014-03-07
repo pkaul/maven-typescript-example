@@ -9,7 +9,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>example-library-js</artifactId>
+    <artifactId>scene-js</artifactId>
     <packaging>jszip</packaging>
     <description>
         Example javascript library that is generated from TypeScript. Packaged as a JSZIP (http://jszip.org) artifact.

@@ -1,4 +1,4 @@
-/// <reference path="./lib/jasmine.d.ts"/>
+/// <reference path="../../jasmine.d.ts"/>
 
 import Triangle = require("../../main/ts/demo/Triangle");
 import TrianglesScene = require("../../main/ts/demo/TrianglesScene");

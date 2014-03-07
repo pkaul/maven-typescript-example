@@ -20,7 +20,8 @@
 
 
     <modules>
-        <module>example-library-js</module>
+        <module>scene-js</module>
+        <module>demo-js</module>
         <module>example-webapp</module>
     </modules>
 

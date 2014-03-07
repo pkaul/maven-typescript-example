@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>de.girino</groupId>
+        <artifactId>maven-typescript-example</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>demo-js</artifactId>
+    <packaging>jszip</packaging>
+    <description>
+        Example javascript library that is generated from TypeScript. Packaged as a JSZIP (http://jszip.org) artifact.
+    </description>
+
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>com.google.code.maven-replacer-plugin</groupId>
+                <artifactId>replacer</artifactId>
+                <version>1.5.2</version>
+                <executions>
+                    <!--
+                       Synchronizes "package.json"  with POM's name, version and description.
+                       NOTE: This will potentially modify the source file on every build!
+                    -->
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>replace</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.basedir}/package.json</file>
+                            <replacements>
+                                <replacement>
+                                    <token>"name"(\s*):(\s*)"(.*)"</token>
+                                    <value>"name": "${project.name}"</value>
+                                </replacement>
+                                <replacement>
+                                    <token>"version": "(.*)"</token>
+                                    <value>"version": "${project.version}"</value>
+                                </replacement>
+                                <replacement>
+                                    <token>"description": "(.*)"</token>
+                                    <value>"description": "${project.description}"</value>
+                                </replacement>
+                                <replacement>
+                                    <token>"homepage": "(.*)"</token>
+                                    <value>"homepage": "${project.url}"</value>
+                                </replacement>
+                            </replacements>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+            <!--
+               Delegates build to "grunt" for several phases
+            -->
+            <plugin>
+                <groupId>pl.allegro</groupId>
+                <artifactId>grunt-maven-plugin</artifactId>
+                <version>1.0.2</version>
+                <configuration>
+                    <gruntBuildDirectory>${project.build.directory}/grunt</gruntBuildDirectory>
+                </configuration>
+                <executions>
+
+                    <!--
+                       Maven "validate" phase: Prepare everything that is required to run grunt
+                    -->
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <!--<goal>create-resources</goal>-->
+                            <goal>npm</goal><!-- setup grunt and plugin -->
+                        </goals>
+                    </execution>
+
+                    <!--
+                       Maven "compile" phase: Do the real stuff by running grunt with target "compile"
+                    -->
+                    <execution>
+                        <id>compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>grunt</goal>
+                        </goals>
+                        <configuration>
+                            <target>compile</target>
+                        </configuration>
+                    </execution>
+
+                    <!--
+                        Maven "test" phase: Run grunt with target "test"
+                    -->
+                    <execution>
+                        <id>test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>grunt</goal>
+                        </goals>
+                        <configuration>
+                            <target>test</target>
+                        </configuration>
+                    </execution>
+
+                    <!--
+                        Maven "(prepare-)package" phase: Run grunt with target "package"
+                    -->
+                    <execution>
+                        <id>prepare-package</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>grunt</goal>
+                        </goals>
+                        <configuration>
+                            <target>package</target>
+                        </configuration>
+                    </execution>
+
+                </executions>
+
+            </plugin>
+
+
+            <!--
+               prepare distribution by copying files in a maven compliant structure
+            -->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
+                <executions>
+                    <execution>
+                        <id>prepare-package-javascript</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Copy all generated javascript files into the final directory structure -->
+                            <outputDirectory>${project.build.outputDirectory}/${project.artifactId}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <!-- the directory that is populated by Grunt -->
+                                    <directory>${project.build.directory}/js</directory>
+                                    <includes>
+                                        <include>**/*.js</include>
+                                    </includes>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>prepare-package-typescript</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Optional: Put all generated typescript definition files (*.d.ts) into the JAR as well -->
+                            <outputDirectory>${project.build.outputDirectory}/META-INF/typescript/${project.artifactId}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.build.directory}/js</directory>
+                                    <includes>
+                                        <include>**/*.d.ts</include>
+                                    </includes>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--
+               Package files in a JSZIP archive
+            -->
+            <plugin>
+                <groupId>org.jszip.maven</groupId>
+                <artifactId>jszip-maven-plugin</artifactId>
+                <extensions>true</extensions>
+            </plugin>
+
+        </plugins>
+
+
+    </build>
+
+</project>

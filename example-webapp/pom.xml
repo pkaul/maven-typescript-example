@@ -20,7 +20,7 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>example-library-js</artifactId>
+            <artifactId>demo-js</artifactId>
             <type>jszip</type>
             <version>${project.version}</version>
         </dependency>
