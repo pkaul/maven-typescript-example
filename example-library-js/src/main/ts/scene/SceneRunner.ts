@@ -1,28 +1,9 @@
-
-
-
-/**
- * A scene
- */
-export interface Scene {
-
-    /**
-     * Executes the scene's logic
-     */
-    run():void;
-
-
-    /**
-     * Draws the scene
-     */
-    draw():void;
-}
-
+import Scene = require("./Scene");
 
 /**
  * A scene base implementation that contains execution logic
  */
-export class SceneRunner implements Scene {
+class SceneRunner implements Scene {
 
     private _running:boolean = false;
 
@@ -72,3 +53,4 @@ export class SceneRunner implements Scene {
     }
 }
 
+export = SceneRunner;
