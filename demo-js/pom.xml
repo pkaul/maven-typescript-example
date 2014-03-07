@@ -16,48 +16,17 @@
     </description>
 
 
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>scene-js</artifactId>
+            <version>${project.version}</version>
+            <type>jszip</type>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
-
-            <plugin>
-                <groupId>com.google.code.maven-replacer-plugin</groupId>
-                <artifactId>replacer</artifactId>
-                <version>1.5.2</version>
-                <executions>
-                    <!--
-                       Synchronizes "package.json"  with POM's name, version and description.
-                       NOTE: This will potentially modify the source file on every build!
-                    -->
-                    <execution>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>replace</goal>
-                        </goals>
-                        <configuration>
-                            <file>${project.basedir}/package.json</file>
-                            <replacements>
-                                <replacement>
-                                    <token>"name"(\s*):(\s*)"(.*)"</token>
-                                    <value>"name": "${project.name}"</value>
-                                </replacement>
-                                <replacement>
-                                    <token>"version": "(.*)"</token>
-                                    <value>"version": "${project.version}"</value>
-                                </replacement>
-                                <replacement>
-                                    <token>"description": "(.*)"</token>
-                                    <value>"description": "${project.description}"</value>
-                                </replacement>
-                                <replacement>
-                                    <token>"homepage": "(.*)"</token>
-                                    <value>"homepage": "${project.url}"</value>
-                                </replacement>
-                            </replacements>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
 
             <!--
                Delegates build to "grunt" for several phases
@@ -131,64 +100,37 @@
 
 
             <!--
-               prepare distribution by copying files in a maven compliant structure
-            -->
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>2.6</version>
-                <executions>
-                    <execution>
-                        <id>prepare-package-javascript</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <!-- Copy all generated javascript files into the final directory structure -->
-                            <outputDirectory>${project.build.outputDirectory}/${project.artifactId}</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <!-- the directory that is populated by Grunt -->
-                                    <directory>${project.build.directory}/js</directory>
-                                    <includes>
-                                        <include>**/*.js</include>
-                                    </includes>
-                                    <filtering>false</filtering>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <id>prepare-package-typescript</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <!-- Optional: Put all generated typescript definition files (*.d.ts) into the JAR as well -->
-                            <outputDirectory>${project.build.outputDirectory}/META-INF/typescript/${project.artifactId}</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${project.build.directory}/js</directory>
-                                    <includes>
-                                        <include>**/*.d.ts</include>
-                                    </includes>
-                                    <filtering>false</filtering>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!--
                Package files in a JSZIP archive
             -->
             <plugin>
                 <groupId>org.jszip.maven</groupId>
                 <artifactId>jszip-maven-plugin</artifactId>
                 <extensions>true</extensions>
+                <executions>
+
+                    <execution>
+                        <id>package</id>
+                        <goals>
+                            <goal>jszip</goal>
+                        </goals>
+                        <configuration>
+                            <contentDirectory>${project.build.directory}/js</contentDirectory>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>resolve-dependencies</id>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <webappDirectory>src/main/ts</webappDirectory>
+                        </configuration>
+                    </execution>
+
+                </executions>
+
+
             </plugin>
 
         </plugins>
