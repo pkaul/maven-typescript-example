@@ -6,7 +6,7 @@ A Maven project that demonstrates how a JavaScript library can be built from Typ
 This project consists of these modules
 *  example-library-js: A module that exposes an example javascript library
   *  Written in [TypeScript](http://www.typescriptlang.org/) and compiled to JavaScript via [Grunt](http://gruntjs.com/) / [Grunt Maven Plugin](https://github.com/allegro/grunt-maven-plugin)
-  *  Contains a [Jasmine](http://pivotal.github.io/jasmine/) based unit test as well as a code coverage report
+  *  Contains a [Jasmine](https://jasmine.github.io/) based unit test as well as a code coverage report
   *  Packaged as a [WebJAR](http://www.webjars.org/)
 *  example-webapp: An example webapp module that uses the javascript library
   *  Integrates the library via [RequireJS](http://requirejs.org)
